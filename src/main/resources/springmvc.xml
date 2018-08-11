@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 
+		springmvc.xml
+		配置springmvc相关信息
+		1.注解驱动-扫描注解
+		2.视图解析器
+		3.多媒体解析器(可选)
+		4.静态资源
+	 -->
+    <mvc:annotation-driven />
+    <context:component-scan base-package="xyz.beend.estore.common.bean"></context:component-scan>
+    <context:component-scan base-package="xyz.beend.estore.web.controller"></context:component-scan>
+
+    <!--设置不拦截静态资源-->
+    <mvc:default-servlet-handler />
+</beans>

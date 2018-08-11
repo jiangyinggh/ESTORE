@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.beend.estore.dao.IOrderDao">
+    <insert id="saveOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+        insert into orderform values (#{id},#{cost},#{orderDate},#{customerId},#{payStatus},#{payway})
+    </insert>
+
+    <update id="updateOrderPayStatus">
+        update orderform set status = #{param2} where id = #{param1}
+    </update>
+
+    <resultMap id="bookResult" type="Book">
+        <id column="bid" property="id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+    </resultMap>
+
+    <resultMap id="lineResult" type="Line">
+        <id column="lid" property="id"/>
+        <result column="num" property="num"/>
+        <association property="book" resultMap="bookResult"/>
+    </resultMap>
+
+    <resultMap id="orderResult" type="Order">
+        <id column="fid" property="id"/>
+        <result column="cost" property="cost"/>
+        <result column="orderdate" property="orderDate"/>
+        <result column="status" property="payStatus"/>
+        <result column="payway" property="payway"/>
+        <collection property="lines" resultMap="lineResult"/>
+    </resultMap>
+
+    <select id="findOrdersByCustomerId" parameterType="long" resultMap="orderResult">
+        select id as fid,cost,orderdate,status,payway
+        from orderform
+        where customerid = #{id}
+    </select>
+
+    <select id="findOrderDetail" resultMap="orderResult">
+        select f.id as fid,cost,orderdate,status,payway,
+        l.id as lid,num,b.id as bid,name,price
+        from orderform f join orderline l on l.orderid = f.id
+        join book b on l.bookid = b.id
+        where f.id = #{param1} and f.customerid = #{param2}
+    </select>
+
+    <select id="findOrderSimpleById" parameterType="long" resultMap="orderResult">
+        select id as fid,cost,orderdate,status,payway
+        from orderform
+        where id = #{id}
+    </select>
+
+    <delete id="deleteOrder" parameterType="long">
+        delete from orderform where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.beend.estore.dao.ICustomerDao">
+	<insert id="saveCustomer" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		customer(id,name,password,zip,address1,address2,home_phone,office_phone,mobile_phone,email)
+		values (#{id},#{name},#{password},#{zip},#{address1},#{address2},
+		#{homePhone},#{officePhone},#{mobilePhone},#{email})
+	</insert>
+	<update id="updateCustomer" parameterType="Customer">
+		update customer
+		<set>
+			<if test="password!=null">password = #{password},</if>
+			<if test="zip!=null">zip = #{zip},</if>
+			<if test="address1!=null">address1 = #{address1},</if>
+			<if test="address2!=null">address2 = #{address2},</if>
+			<if test="homePhone!=null">home_phone = #{homePhone},</if>
+			<if test="officePhone!=null">office_phone = #{officePhone},</if>
+			<if test="mobilePhone!=null">mobile_phone = #{mobilePhone},</if>
+			<if test="email!=null">email = #{email}</if>
+		</set>
+		where id = #{id}
+	</update>
+	<resultMap id="customerResult" type="Customer">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="password" column="password"/>
+		<result property="zip" column="zip"/>
+		<result property="adderss1" column="adderss1"/>
+		<result property="adderss2" column="adderss2"/>
+		<result property="homePhone" column="home_phone"/>
+		<result property="officePhone" column="office_phone"/>
+		<result property="mobilePhone" column="mobile_phone"/>
+		<result property="email" column="email"/>
+	</resultMap>
+	<select id="findCustomerByName" parameterType="String" resultMap="customerResult">
+        select id,name,password,zip,address1,address2,
+		home_phone,office_phone,mobile_phone,email
+        from customer
+        where name = #{name}
+    </select>
+</mapper>			

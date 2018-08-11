@@ -1,0 +1,265 @@
+<!--文件头开始-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="beend电子商务门户">
+    <title>beend电子商务门户</title>
+    <LINK href="../css/main.css" rel=stylesheet>
+    <link type="text/css" rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src = "../js/main.js"></script>
+</head>
+
+<script type="text/javascript" language="JavaScript">
+    $(document).ready(function () {
+        $('#password').blur(function () {
+            var password = $(this).val();
+            var password2 = $('#password2').val();
+            if(password == ""){
+                $('#passwordMsg').html("<font color=\"#F60018\">* 请输入密码!</font>")
+            }else if(password.length < 6 || password.length >16){
+                $('#passwordMsg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 您的密码少于6位或多于16位!</font>")
+            }else if(password2 != "") {
+                if(password != password2) {
+                    $('#password2Msg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 两次密码不一致!</font>")
+                }else {
+                    $('#password2Msg').html("<i class=\"fa fa-check-circle\" style=\"font-size:14px;color:green;\"></i>")
+                    $('#passwordMsg').html("<i class=\"fa fa-check-circle\" style=\"font-size:14px;color:green;\"></i>")
+                }
+            }else {
+                $('#passwordMsg').html("<i class=\"fa fa-check-circle\" style=\"font-size:14px;color:green;\"></i>")
+            }
+        })
+
+        $('#password2').blur(function () {
+            var password = $('#password').val();
+            var password2 = $('#password2').val();
+            if(password2 == ""){
+                $('#password2Msg').html("<font color=\"#F60018\">* 请再次输入密码!</font>")
+            }else if(password2.length < 6 || password2.length >16){
+                $('#password2Msg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 您的密码少于6位或多于16位!</font>")
+            }else if(password != password2){
+                $('#password2Msg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 两次密码不一致!</font>")
+            }else {
+                $('#password2Msg').html("<i class=\"fa fa-check-circle\" style=\"font-size:14px;color:green;\"></i>")
+            }
+        })
+
+        $('#email').blur(function () {
+            var email = $(this).val();
+            if(email != "" & IsEmail(email)) {
+                $('#emailMsg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 您的E-mail不符合规范!</font>")
+            }else {
+                $('#emailMsg').html("<i class=\"fa fa-check-circle\" style=\"font-size:14px;color:green;\"></i>")
+            }
+        })
+    });
+
+    $(function () {
+        var url = "https://estore.beend.xyz/customer";
+        $.getJSON(url, function (data) {
+            if(data.status == 200) {
+                var customer = data.data;
+                $("input:eq(0)").val(customer.name);
+                $("input:eq(1)").val(customer.name);
+                $("input:eq(4)").val(customer.address1);
+                $("input:eq(5)").val(customer.address2);
+                $("input:eq(6)").val(customer.zip);
+                $("input:eq(7)").val(customer.homePhone);
+                $("input:eq(8)").val(customer.officePhone);
+                $("input:eq(9)").val(customer.mobilePhone);
+                $("input:eq(10)").val(customer.email);
+            }else {  //登录过期处理
+                window.location.href="https://estore.beend.xyz/login.html";
+            }
+        })
+    })
+
+    function modifyUserinfo() {
+        var temp;
+        temp = new String(document.reg.password.value);
+        if(document.reg.password.value == "") {
+            $('#passwordMsg').html("<font color=\"#F60018\">* 请输入密码!</font>")
+            return false;
+        }else if(temp.length < 6 || temp.length > 8) {
+            $('#passwordMsg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 您的密码少于6位或多于16位!</font>")
+            return false;
+        }
+        if(document.reg.password2.value == "") {
+            $('#password2Msg').html("<font color=\"#F60018\">* 请再次输入密码!</font>")
+            return false;
+        } else if(document.reg.password.value != document.reg.password2.value) {
+            $('#password2Msg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 两次密码不一致!</font>")
+            return false;
+        }
+        if(document.reg.email.value != "" & IsEmail(document.reg.email.value)) {
+            $('#emailMsg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 您的E-mail不符合规范!</font>")
+            return false;
+        }
+        $.ajax({
+            type: "PUT",
+            url: "https://estore.beend.xyz/customer",
+            data: $('#regForm').serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 200) {
+                    scscms_alert("修改成功","ok",function(){
+                        window.location.href="userinfo.html";
+                    });
+                }else if(data.status == 401) {   //登录过期处理
+                    window.location.href="https://estore.beend.xyz/login.html";
+                }else {
+                    scscms_alert(data.msg,"error");
+                }
+            }
+        })
+    }
+</script>
+
+<body onLoad="MM_preloadImages('../images/index_on.gif','../images/reg_on.gif','../images/order_on.gif')" topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table2">
+    <tr>
+        <td align="left" width="7%" background="../images/top_bg.gif"><img src="../images/logo.gif" width="165" height="60"></td>
+        <td width="62%" background="../images/top_bg.gif">　</td>
+        <td width="31%" background="../images/top_bg.gif" align="right">
+            <img src="../images/top_r.gif" width="352" height="58" border="0"></td>
+    </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td background="../images/dh_bg.gif" align="left" height="12">
+            <table width="100" border="0" cellspacing="0" cellpadding="0" align="center">
+                <tr>
+                    <td width="5%">　</td>
+                    <td width="10%"><a href="../index.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image1','','../images/index_on.gif',1)">
+                        <img name="Image1" border="0" src="../images/index.gif" width="90" height="36"></a></td>
+                    <td width="10%"><a href="../superUser/userinfo.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image2','','../images/reg_on.gif',1)">
+                        <img name="Image2" border="0" src="../images/reg.gif" width="92" height="36"></a></td>
+                    <td width="10%"><a href="../shopcart.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image4','','../images/carts_on.gif',1)">
+                        <img name="Image4" border="0" src="../images/cart.gif" width="92" height="36"></a></td>
+                    <td width="10%"><a href="../superUser/orderList.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image5','','../images/order_on.gif',1)">
+                        <img name="Image5" border="0" src="../images/order.gif" width="92" height="36"></a></td>
+                    <td width="10%"><a href="../customer/logout" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image6','','../images/exit_on.gif',1)">
+                        <img name="Image6" border="0" src="../images/exit.gif" width="92" height="36"></a></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<table cellspacing="1" cellpadding="3" align="center" border="0" width="98%">
+    <tr>
+        <td width="65%"><BR>
+            >> 欢迎访问 <b>beend电子商务门户</b> </td>
+        <td width="35%" align="right">
+        </td>
+    </tr>
+</table>
+
+<!--文件体开始-->
+<table cellspacing=1 cellpadding=3 align=center class=tableBorder2>
+    <tr>
+        <td height=25 valign=middle>
+            <img src="../images/Forum_nav.gif" align="absmiddle">
+            <a href="../index">beend电子商务门户</a> → 用户信息修改
+        </td>
+    </tr>
+</table>
+<br>
+<form  id="regForm" method="post" name="reg" action="">
+    <table cellpadding="3" cellspacing="1" align="center" class="tableborder1" id="table1">
+        <tr>
+            <td valign="middle" colspan="2" align="center" height="25" background="../images/bg2.gif">
+                <font color="#ffffff"><b>用户信息修改</b></font></td>
+        </tr>
+        <tr>
+            <td width="40%" class="tablebody1"><b>用户名</b>：<br>
+                注册用户名长度限制为1－16字节</td>
+            <td width="60%" class="tablebody1">
+                <input type="hidden" name="name">
+                <input type="text" maxLength="8" size="32" disabled style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+        </tr>
+        <tr>
+            <td width="40%" class="tablebody1"><b>密码(至少6位，至多16位)</b>：<br>
+                请输入密码，区分大小写。<br>
+                请不要使用任何类似 \'*\'、\' \' 或 HTML 字符'
+            </td>
+            <td width="60%" class="tablebody1">
+                <input id="password" type="password" maxLength="16" size="32" name="password" placeholder="请输入密码" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+                <span id="passwordMsg"><font color="#FF0000">*</font></span>
+        </tr>
+        <tr>
+            <td width="40%" class="tablebody1"><b>密码(至少6位，至多16位)</b>：<br>
+                请再输一遍确认</td>
+            <td class="tablebody1">
+                <input id="password2" type="password" maxLength="16" size="32" name="password2" placeholder="请再次输入密码" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+                <span id="password2Msg"><font color="#FF0000">*</font></span>
+        </tr>
+        <tr>
+            <td class="tablebody1"><b>联系地址1</b>：</td>
+            <td class="tablebody1">
+                <input type="text" size="64" maxlength="32" placeholder="请输入联系地址" name="address1" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+            </td>
+        </tr>
+        <tr>
+            <td class="tablebody1"><b>联系地址2</b>：</td>
+            <td class="tablebody1">
+                <input type="text" size="64" maxlength="32" placeholder="请输入联系地址" name="address2" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+            </td>
+        </tr>
+        <tr>
+            <td class="tablebody1"><b>邮编</b>：</td>
+            <td class="tablebody1">
+                <input type="text" size="32" maxlength="8" placeholder="请输入邮编" name="zip" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+            </td>
+        </tr>
+        <tr>
+            <td class="tablebody1"><b>家庭电话</b>：</td>
+            <td class="tablebody1">
+                <input type="text" size="32" maxlength="16" placeholder="请输入家庭电话" name="homePhone" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+            </td>
+        </tr>
+        <tr>
+            <td class="tablebody1"><b>办公室电话</b>：</td>
+            <td class="tablebody1">
+                <input type="text" size="32" maxlength="16" placeholder="请输入办公室电话" name="officePhone" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+            </td>
+        </tr>
+        <tr>
+            <td class="tablebody1"><b>手机</b>：</td>
+            <td class="tablebody1">
+                <input type="text" size="32" maxlength="16" placeholder="请输入手机号" name="mobilePhone" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+            </td>
+        </tr>
+        <tr>
+            <td class="tablebody1"><b>Email地址</b>：<br>
+                请输入有效的邮件地址</td>
+            <td class="tablebody1">
+                <input id="email" maxLength="50" size="32" maxlength="32" placeholder="请输入Email地址" name="email" style="font-family: Tahoma,Verdana,宋体; font-size: 12px; line-height: 15px; color: #000000">
+                <span id="emailMsg"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="tablebody2" valign="middle" colspan="2" align="center">
+                <input type="button" value="修 改" onclick="javascript:modifyUserinfo()"></td>
+        </tr>
+    </table>
+</form>
+<!--文件尾开始-->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" height="28">
+    <tr>
+        <td height="17" background="../images/bot_bg.gif">
+            　</td>
+    </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+        <td bgcolor="#f1f1f6" height="53" valign="center">
+            <p align="center"><a href="https://www.beend.xyz"><b><font face="Verdana,">www.beend.xyz</font></b></a><br>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

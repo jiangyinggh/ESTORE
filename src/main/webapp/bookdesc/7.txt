@@ -1,0 +1,10 @@
+    《Tomcat与Java Web开发技术详解》 [1]  结合最新的Tomcat 6版本，详细介绍了开发Java Web应用的各种技术。主要内容包括：Tomcat
+和Java Web开发的基础知识、Java Web开发的高级技术、在Java Web应用中运用第三方提供的实用软件（如Struts、Velocity和Log4J）的方法，
+以及Tomcat的各种高级功能。<br>
+    书中内容注重理论与实践相结合，列举了大量具有典型性和实用价值的Web应用实例，并提供了详细的开发和部署步骤。由于Java Web技术是SUN
+公司在Java Servlet规范中提出的通用技术，因此《Tomcat与Java Web开发技术详解》讲解的Java Web应用例子可以运行在任何一个实现了SUN
+的Servlet规范的Java Web服务器上。随书附赠光盘的内容为《Tomcat与Java Web开发技术详解》范例的源程序，以及《Tomcat与Java Web开发
+技术详解》涉及的部分软件的安装程序。<br>
+    《Tomcat与Java Web开发技术详解》语言深入浅出、通俗易懂，无论对于Java Web开发的新手还是行家来说，《Tomcat与Java Web开发技术
+详解》都是精通Tomcat和开发Java Web应用的必备的实用手册。《Tomcat与Java Web开发技术详解》还可作为高校相关专业学生学习Java Web开
+发的参考书，以及企业Java Web培训教材，也可作为SUN公司的SCWCD（SUN Certified Web Component Developer）认证的辅导教材。<br>

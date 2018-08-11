@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.beend.estore.dao.ILineDao">
+    <insert id="saveOrderLine" parameterType="Line">
+        insert into orderline values (#{id},#{num},#{orderId},#{book.id})
+    </insert>
+
+    <delete id="deleteOrderLineByOrderId" parameterType="long">
+        delete from orderline where orderid = #{orderId}
+    </delete>
+
+
+    <insert id="saveCartLine" parameterType="Line" useGeneratedKeys="true" keyProperty="id">
+        insert into cartline values (#{id},#{num},#{customerId},#{book.id})
+    </insert>
+
+    <delete id="deleteCartLine" parameterType="long">
+        delete from cartline where customerid = #{customerId}
+    </delete>
+
+    <delete id="deleteCartLineByBookId">
+        delete from cartline where customerid = #{param1} and bookid = #{param2}
+    </delete>
+
+    <update id="updateCartLineNum">
+        update cartline set num = #{param2} where id = #{param1}
+    </update>
+
+    <resultMap id="cartLineResult" type="Line">
+        <id column="id" property="id"/>
+        <result column="num" property="num"/>
+        <association property="book" javaType="Book">
+            <id column="bid" property="id"/>
+            <result column="name" property="name"/>
+            <result column="price" property="price"/>
+        </association>
+    </resultMap>
+
+    <select id="selectCartLine" parameterType="long" resultMap="cartLineResult">
+        select c.id,num,b.id as bid,name,price
+        from cartline c join book b on c.bookid = b.id
+        where c.customerid = #{customerId}
+    </select>
+</mapper>

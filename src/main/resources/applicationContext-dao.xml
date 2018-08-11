@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- 
+		applicationContext-dao 主要整合mybatis 不包括事务
+		为了后期维护也是为了单一职能原则
+		什么时候用注解
+		什么时候用xml配置
+		 如果是自己写的代码就使用注解
+		 如果是配置第三方jar包，那么就需要xml配置
+	 -->
+	 
+	 <!-- 导入外部配置的数据库连接信息 -->
+	 <context:property-placeholder location="classpath:datasources.properties" />
+	 
+	 <!-- 
+	 	druidDataSource  
+	 	配置连接数据库的信息
+	 	连接数据库的url
+	 	连接数据库的usernmae
+	 	连接数据库的pasword
+	 	连接数据库的driver	
+	  -->
+	<bean name="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<!-- 通过set方法注入值 -->
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	
+	<!-- 
+		sqlSessionFactoryBean
+		配置mybatis的一些相关信息
+		比如说：
+			mybatis操作数据库的信息
+			mybatis的映射文件
+			mybatis分页信息
+			mybatis起别名		
+	 -->
+	<bean name="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- set方法注入 -->
+		<property name="dataSource" ref="druidDataSource"></property>
+        <!-- 取别名 -->
+        <property name="typeAliasesPackage" value="xyz.beend.estore.common.bean"/>
+		<!-- 映射文件 -->
+		<property name="mapperLocations" value="classpath:*Mapper.xml"></property>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
+        <!-- mybatis分页插件 pagehelper -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+	</bean>
+	
+	<!--
+		mapperScannerConfigurer
+		 映射扫描接口
+		 是为了告诉spring容器mybatis的映射接口在什么包底下
+		 然后spring容器才能给映射接口动态的产生一个代理实现类
+	 -->
+	 <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	 	<property name="basePackage" value="xyz.beend.estore.dao"></property>
+	 </bean>
+	 
+</beans>

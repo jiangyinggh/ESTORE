@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.beend.estore.dao.IBookDao">
+    <resultMap id="bookResult" type="Book">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="author" property="author"/>
+        <result column="publish" property="publish"/>
+        <result column="isbn" property="isbn"/>
+        <result column="page" property="page"/>
+        <result column="type" property="type"/>
+        <result column="desc_url" property="descUrl"/>
+        <result column="pic_url" property="picUrl"/>
+    </resultMap>
+    <select id="queryAllBook" resultMap="bookResult">
+        select * from book
+    </select>
+    <select id="queryBookById" parameterType="long" resultMap="bookResult">
+        select * from book where id = #{id}
+    </select>
+</mapper>
