@@ -53,6 +53,6 @@
 		 	pointcut  配置切入点
 		  -->
 		 <aop:config>
-			<aop:advisor advice-ref="txAdvice" pointcut="execution(* xyz.beend.estore.service..*.*(..))"/>
+			<aop:advisor advice-ref="txAdvice" pointcut="execution(* com.bvear.estore.service..*.*(..))"/>
 		 </aop:config>
 </beans>

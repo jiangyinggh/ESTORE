@@ -9,5 +9,5 @@
 		1.扫描service层底下所有的注解
 		2.方便后期业务扩展
 	 -->
-	<context:component-scan base-package="xyz.beend.estore.service"></context:component-scan>
+	<context:component-scan base-package="com.bvear.estore.service"></context:component-scan>
 </beans>

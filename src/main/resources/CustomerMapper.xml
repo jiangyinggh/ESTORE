@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.beend.estore.dao.ICustomerDao">
+<mapper namespace="com.bvear.estore.dao.ICustomerDao">
 	<insert id="saveCustomer" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
 		insert into
 		customer(id,name,password,zip,address1,address2,home_phone,office_phone,mobile_phone,email)

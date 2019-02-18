@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="Content-Language" content="zh-cn">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="description" content="beend电子商务门户">
-    <title>beend电子商务门户</title>
+    <meta name="description" content="bvear电子商务门户">
+    <title>bvear电子商务门户</title>
     <LINK href="../css/main.css" rel=stylesheet>
     <link type="text/css" rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
@@ -59,7 +59,7 @@
     });
 
     $(function () {
-        var url = "https://estore.beend.xyz/customer";
+        var url = "https://estore.bvear.com/customer";
         $.getJSON(url, function (data) {
             if(data.status == 200) {
                 var customer = data.data;
@@ -73,7 +73,7 @@
                 $("input:eq(9)").val(customer.mobilePhone);
                 $("input:eq(10)").val(customer.email);
             }else {  //登录过期处理
-                window.location.href="https://estore.beend.xyz/login.html";
+                window.location.href="https://estore.bvear.com/login.html";
             }
         })
     })
@@ -101,7 +101,7 @@
         }
         $.ajax({
             type: "PUT",
-            url: "https://estore.beend.xyz/customer",
+            url: "https://estore.bvear.com/customer",
             data: $('#regForm').serialize(),
             dataType: 'json',
             success: function (data) {
@@ -110,7 +110,7 @@
                         window.location.href="userinfo.html";
                     });
                 }else if(data.status == 401) {   //登录过期处理
-                    window.location.href="https://estore.beend.xyz/login.html";
+                    window.location.href="https://estore.bvear.com/login.html";
                 }else {
                     scscms_alert(data.msg,"error");
                 }
@@ -152,7 +152,7 @@
 <table cellspacing="1" cellpadding="3" align="center" border="0" width="98%">
     <tr>
         <td width="65%"><BR>
-            >> 欢迎访问 <b>beend电子商务门户</b> </td>
+            >> 欢迎访问 <b>bvear电子商务门户</b> </td>
         <td width="35%" align="right">
         </td>
     </tr>
@@ -163,7 +163,7 @@
     <tr>
         <td height=25 valign=middle>
             <img src="../images/Forum_nav.gif" align="absmiddle">
-            <a href="../index">beend电子商务门户</a> → 用户信息修改
+            <a href="../index">bvear电子商务门户</a> → 用户信息修改
         </td>
     </tr>
 </table>
@@ -257,7 +257,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
         <td bgcolor="#f1f1f6" height="53" valign="center">
-            <p align="center"><a href="https://www.beend.xyz"><b><font face="Verdana,">www.beend.xyz</font></b></a><br>
+            <p align="center"><a href="https://www.bvear.com"><b><font face="Verdana,">www.bvear.com</font></b></a><br>
         </td>
     </tr>
 </table>

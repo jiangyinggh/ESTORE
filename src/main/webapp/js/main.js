@@ -146,12 +146,12 @@ function checkReg() {
         $('#emailMsg').html("<i class=\"fa fa-times-circle\" style=\"font-size:14px;color:red\"></i><font color=\"#F60018\"> 您的E-mail不符合规范!</font>")
         return false;
     }
-    $.post("https://estore.beend.xyz/customer", $('#regForm').serialize(), function (data) {
+    $.post("https://estore.bvear.com/customer", $('#regForm').serialize(), function (data) {
         if(data.status == 200){
             scscms_alert("注册成功，现在去登录？","confirm",function(){
-                window.location.href="https://estore.beend.xyz/login.html";
+                window.location.href="https://estore.bvear.com/login.html";
             },function(){
-                window.location.href="https://estore.beend.xyz/index.html";
+                window.location.href="https://estore.bvear.com/index.html";
             });
         }else {
             scscms_alert("注册失败，您的用户名可能被抢注了","error");
@@ -175,7 +175,7 @@ function getUrlParam(name){
  * @param productId
  */
 function addProduct(productId) {
-    var url = "https://estore.beend.xyz/shoppingCar/" + productId;
+    var url = "https://estore.bvear.com/shoppingCar/" + productId;
     $.post(url, function (data) {
         if(data.status == 200){
             scscms_alert("加购成功","ok");

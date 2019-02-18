@@ -41,7 +41,7 @@
 
     <filter>
         <filter-name>loginFilter</filter-name>
-        <filter-class>xyz.beend.estore.web.filter.LoginFilter</filter-class>
+        <filter-class>com.bvear.estore.web.filter.LoginFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>loginFilter</filter-name>

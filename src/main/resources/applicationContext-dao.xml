@@ -46,7 +46,7 @@
 		<!-- set方法注入 -->
 		<property name="dataSource" ref="druidDataSource"></property>
         <!-- 取别名 -->
-        <property name="typeAliasesPackage" value="xyz.beend.estore.common.bean"/>
+        <property name="typeAliasesPackage" value="com.bvear.estore.common.bean"/>
 		<!-- 映射文件 -->
 		<property name="mapperLocations" value="classpath:*Mapper.xml"></property>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
@@ -72,7 +72,7 @@
 		 然后spring容器才能给映射接口动态的产生一个代理实现类
 	 -->
 	 <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-	 	<property name="basePackage" value="xyz.beend.estore.dao"></property>
+	 	<property name="basePackage" value="com.bvear.estore.dao"></property>
 	 </bean>
 	 
 </beans>
